@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mholt/archiver/v4"
+	"github.com/mholt/archives"
 )
 
 func main() {
@@ -58,7 +58,7 @@ func main() {
 
 		return nil
 	})
-	mdFiles, _ := archiver.FilesFromDisk(nil, mdFilesMap)
+	mdFiles, _ := archives.FilesFromDisk(context.Background(), nil, mdFilesMap)
 
 	projectName := filepath.Base(markdownPath)
 	projectDir := filepath.Dir(markdownPath)
@@ -70,9 +70,9 @@ func main() {
 	}
 	defer mdZipPathHandle.Close()
 
-	format := archiver.CompressedArchive{
-		Compression: archiver.Gz{},
-		Archival:    archiver.Tar{},
+	format := archives.CompressedArchive{
+		Compression: archives.Gz{},
+		Archival:    archives.Tar{},
 	}
 
 	err = format.Archive(context.Background(), mdZipPathHandle, mdFiles)
@@ -97,7 +97,7 @@ func main() {
 
 		return nil
 	})
-	idxFiles, _ := archiver.FilesFromDisk(nil, idxFilesMap)
+	idxFiles, _ := archives.FilesFromDisk(context.Background(), nil, idxFilesMap)
 
 	idxZipPath := filepath.Join(projectDir, projectName+"_idx.tar.gz")
 	idxZipPathHandle, err := os.Create(idxZipPath)

@@ -12,7 +12,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	arrops "github.com/adam-hanna/arrayOperations"
 	"github.com/kljensen/snowball"
-	"github.com/mholt/archiver/v4"
+	"github.com/mholt/archives"
 	"github.com/russross/blackfriday"
 )
 
@@ -41,7 +41,7 @@ func doesPathExists(p string) bool {
 }
 
 func (s1o *S1Object) ReadMDAsHTML(path string) (string, error) {
-	mdFS, err := archiver.FileSystem(context.Background(), s1o.mDTarPath)
+	mdFS, err := archives.FileSystem(context.Background(), s1o.mDTarPath, nil)
 	if err != nil {
 		return "", err
 	}
@@ -97,7 +97,7 @@ func getStopWords() []string {
 }
 
 func (s1o *S1Object) ReadAllMD() ([]string, error) {
-	mdFS, err := archiver.FileSystem(context.Background(), s1o.mDTarPath)
+	mdFS, err := archives.FileSystem(context.Background(), s1o.mDTarPath, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -128,7 +128,7 @@ func (s1o *S1Object) ReadAllMD() ([]string, error) {
 }
 
 func (s1o *S1Object) Search(searchStr string) ([]string, error) {
-	idxFS, err := archiver.FileSystem(context.Background(), s1o.iDXTarPath)
+	idxFS, err := archives.FileSystem(context.Background(), s1o.iDXTarPath, nil)
 	if err != nil {
 		return nil, err
 	}
